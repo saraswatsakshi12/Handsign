@@ -14,7 +14,7 @@ from tensorflow.keras.optimizers import Adam
 import warnings
 warnings.filterwarnings("ignore")
 
-# ── 1. Configuration ─────────────────────────────────────────
+# ── 1. Configuration 
 IMG_SIZE    = 28          # 28x28 grayscale images
 NUM_CLASSES = 10          # digits 0–9
 BATCH_SIZE  = 64
@@ -27,7 +27,7 @@ tf.random.set_seed(SEED)
 # Class labels: digits 0–9
 CLASS_NAMES = [str(i) for i in range(10)]
 
-# ── 2. Load Data ─────────────────────────────────────────────
+# ── 2. Load Data
 # Download from Kaggle:
 #   kaggle datasets download datamunge/sign-language-mnist
 # Place sign_mnist_train.csv and sign_mnist_test.csv in same folder.
@@ -40,7 +40,7 @@ print(f"Train samples : {len(train_df)}")
 print(f"Test  samples : {len(test_df)}")
 print(f"Classes       : {sorted(train_df['label'].unique())}")
 
-# ── 3. Preprocess ─────────────────────────────────────────────
+# ── 3. Preprocess
 def preprocess(df):
     labels  = df["label"].values
     pixels  = df.drop("label", axis=1).values.astype("float32") / 255.0
@@ -64,7 +64,7 @@ y_test_enc  = lb.transform(y_test)
 
 print(f"\nTrain : {X_train.shape}, Val : {X_val.shape}, Test : {X_test.shape}")
 
-# ── 4. Visualize Sample Images ────────────────────────────────
+# ── 4. Visualize Sample Images
 def plot_samples(X, y, n=10):
     fig, axes = plt.subplots(2, 5, figsize=(14, 6))
     fig.suptitle("HandSign — Sample Sign Language Digits", fontsize=14, fontweight="bold")
@@ -79,7 +79,7 @@ def plot_samples(X, y, n=10):
 
 plot_samples(X_train, y_train)
 
-# ── 5. Class Distribution ─────────────────────────────────────
+# ── 5. Class Distribution
 def plot_distribution(y, title):
     unique, counts = np.unique(y, return_counts=True)
     plt.figure(figsize=(10, 4))
@@ -97,10 +97,7 @@ def plot_distribution(y, title):
 
 plot_distribution(y_train, "HandSign — Training Set Class Distribution")
 
-# ── 6. Model Architecture ─────────────────────────────────────
-# Fully connected neural network (no CNN) as per the project brief.
-# Good baseline for 28x28 grayscale sign images.
-
+# ── 6. Architecture
 def build_model(input_shape, num_classes, dropout_rate=0.4):
     model = Sequential([
         # Flatten the 28x28x1 image to 784 features
@@ -134,14 +131,14 @@ def build_model(input_shape, num_classes, dropout_rate=0.4):
 model = build_model(input_shape=(IMG_SIZE, IMG_SIZE, 1), num_classes=NUM_CLASSES)
 model.summary()
 
-# ── 7. Compile ────────────────────────────────────────────────
+# ── 7. Compilation
 model.compile(
     optimizer=Adam(learning_rate=LR),
     loss="categorical_crossentropy",
     metrics=["accuracy"]
 )
 
-# ── 8. Callbacks ──────────────────────────────────────────────
+# ── 8. Callbacks
 callbacks = [
     EarlyStopping(monitor="val_accuracy", patience=7,
                   restore_best_weights=True, verbose=1),
@@ -149,7 +146,7 @@ callbacks = [
                       patience=3, min_lr=1e-6, verbose=1),
 ]
 
-# ── 9. Train ──────────────────────────────────────────────────
+# ── 9. Train 
 print("\nTraining HandSign model...")
 history = model.fit(
     X_train, y_train_enc,
@@ -160,13 +157,13 @@ history = model.fit(
     verbose=1
 )
 
-# ── 10. Evaluate ──────────────────────────────────────────────
+# ── 10. Evaluate
 print("\nEvaluating on test set...")
 test_loss, test_acc = model.evaluate(X_test, y_test_enc, verbose=0)
 print(f"\nTest Accuracy : {test_acc * 100:.2f}%")
 print(f"Test Loss     : {test_loss:.4f}")
 
-# ── 11. Training Curves ───────────────────────────────────────
+# ── 11. Training Curves 
 def plot_history(history):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
     fig.suptitle("HandSign — Training History", fontsize=14, fontweight="bold")
@@ -190,7 +187,7 @@ def plot_history(history):
 
 plot_history(history)
 
-# ── 12. Confusion Matrix ──────────────────────────────────────
+# ── 12. Confusion Matrix
 def plot_confusion_matrix(X, y_true, model, lb):
     y_pred_probs = model.predict(X, verbose=0)
     y_pred       = np.argmax(y_pred_probs, axis=1)
@@ -218,7 +215,7 @@ def plot_confusion_matrix(X, y_true, model, lb):
 
 plot_confusion_matrix(X_test, y_test, model, lb)
 
-# ── 13. Predict & Visualize Single Samples ────────────────────
+# ── 13. Predict & Visualizing Sample
 def predict_samples(X, y_true, model, n=10):
     indices = np.random.choice(len(X), n, replace=False)
     fig, axes = plt.subplots(2, 5, figsize=(14, 6))
@@ -244,7 +241,6 @@ def predict_samples(X, y_true, model, n=10):
 
 predict_samples(X_test, y_test, model)
 
-# ── 14. Save Model ────────────────────────────────────────────
 model.save("handsign_model.h5")
 print("\nModel saved as handsign_model.h5")
 
