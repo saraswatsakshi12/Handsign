@@ -1,8 +1,7 @@
 # HandSign — Sign Language Digit Recognizer
 A deep learning system that recognizes hand signs for digits 0–9, built to help deaf and mute learners practice sign language through AI-powered feedback.
 
----
-
+--
 ## Real-World Problem
 Over 63 million people in India have significant hearing disability. Learning sign language digits is a fundamental step for communication, but practice tools are scarce. HandSign uses a neural network to instantly recognize hand sign images and tell the learner which digit they are showing.
 
