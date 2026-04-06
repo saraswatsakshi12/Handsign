@@ -1,14 +1,3 @@
-# ============================================================
-# HandSign — Sign Language Digit Recognizer
-# Real-world problem: Help deaf/mute learners recognize and
-# practice sign language digits (0–9) using deep learning.
-#
-# Dataset: Sign Language MNIST (Kaggle)
-# https://www.kaggle.com/datasets/datamunge/sign-language-mnist
-#
-# Author : Sakshi Saraswat | GWECA, Ajmer
-# ============================================================
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
