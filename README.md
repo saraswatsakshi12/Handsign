@@ -1,6 +1,4 @@
 # HandSign — Sign Language Digit Recognizer
-### Sakshi Saraswat | GWECA, Ajmer
-
 A deep learning system that recognizes hand signs for digits 0–9, built to help deaf and mute learners practice sign language through AI-powered feedback.
 
 ---
